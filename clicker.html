@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mihai Clicker</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #clickButton {
+            padding: 20px 40px;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: #132ec6;
+            color: white;
+        }
+        #shop {
+            margin-top: 20px;
+        }
+        button {
+            margin: 5px;
+        }
+        #upgrade {
+            background-color: #00ff3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        #upgrade:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mihai Clicker</h1>
+    <h2>Mihaipoints: <span id="score">0</span></h2>
+    <button id="clickButton">Click Me!</button>
+
+    <div id="shop">
+        <h3>Shop</h3>
+        <button id="upgrade" disabled>Upgrade Click (Cost: 10)</button>
+    </div>
+
+    <script>
+        // Initialize game variables
+        let score = 0;
+        let clickValue = 1;
+        let upgradeCost = 10;
+
+        // Get HTML elements
+        const scoreDisplay = document.getElementById("score");
+        const clickButton = document.getElementById("clickButton");
+        const upgradeButton = document.getElementById("upgrade");
+
+        // Click event for the main button
+        clickButton.addEventListener("click", () => {
+            score += clickValue; // Increment score by click value
+            scoreDisplay.textContent = score; // Update score display
+            checkUpgradeAvailability(); // Check if upgrades are available
+        });
+
+        // Click event for the upgrade button
+        upgradeButton.addEventListener("click", () => {
+            if (score >= upgradeCost) {
+                score -= upgradeCost; // Deduct upgrade cost
+                clickValue++; // Increase click value
+                upgradeCost *= 2; // Double the cost for next upgrade
+                upgradeButton.textContent = `Upgrade Click (Cost: ${upgradeCost})`; // Update button text
+                scoreDisplay.textContent = score; // Update score display
+                checkUpgradeAvailability();
+            }
+        });
+
+        // Function to enable/disable the upgrade button
+        function checkUpgradeAvailability() {
+            upgradeButton.disabled = score < upgradeCost;
+        }
+    </script>
+</body>
+</html>
